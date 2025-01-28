@@ -1,0 +1,80 @@
+
+defaults:
+  - _self_
+
+data:
+  # CSV for path and metadata to training examples.
+  csv_path:
+  dataset_path:
+  max_len: 300
+  valid_csv_path:
+  split: 0.95
+
+noiser:
+  noise_frames: False
+  num_omega: 1000
+  rot_sigma: 0.1
+  trans_sigma: 0.02
+  cache_dir: .cache/
+  use_cached_score: False
+
+
+model:
+  c_s: 128
+  geom_no_heads: 12
+  no_qk_points: 4
+  no_v_points: 8
+  no_anchors: 100000
+  c_hidden: 64
+  no_heads: 12
+  transition_n: 2
+  c_lm_head: ${tokenizer.vocab_size}
+  num_blocks_aa: 10
+  num_blocks_na: 10
+  coordinate_scaling: 0.1
+  norm_qk: True
+
+tokenizer:
+  vocab_path: ./data/tokenizer.json
+  vocab_size: 5
+
+    
+
+
+experiment:
+  # Experiment metadata
+  name:
+  run_id: null
+  num_parameters: null
+
+  # Training mode
+  use_ddp : False
+
+  # Training arguments
+  log_freq: 1000
+  batch_size: 8
+  num_loader_workers: 6
+  num_epoch: 50
+  learning_rate: 0.0001
+  warmup_steps: 1000
+  prefetch_factor: 10
+  use_gpu: True
+
+  # Data arguments
+  sample_mode: cluster_batch
+  sample_num: 8
+
+  # Checkpoint directory to warm start from.
+  load_from_ckpt: 
+  use_ckpt_conf: False
+  warm_start_na:
+  warm_start_aa:
+  ckpt_dir: ./ckpt/
+
+  # Wandb logging
+  wandb_dir: ./
+  use_wandb: False
+
+hydra:
+  run:
+    dir: ./outputs/${experiment.name}/${now:%dD_%mM_%YY_%Hh_%Mm_%Ss}

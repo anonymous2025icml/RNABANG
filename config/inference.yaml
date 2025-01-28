@@ -1,0 +1,26 @@
+defaults:
+  - _self_
+
+
+inference:
+  name: 
+  seed: 123
+  nof_samples: 1000
+
+  sample_mode: topk
+  kp: 4
+  max_len: 50
+
+  output_dir: ./inference_outputs/
+  
+  model_path: 
+  testset_path:
+
+data:
+  dataset_path:
+  num_loader_workers: 6
+
+tokenizer:
+  vocab_path: ./data/tokenizer.json
+  vocab_size:
+  
