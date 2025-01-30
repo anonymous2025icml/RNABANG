@@ -23,7 +23,6 @@ import torch.distributed as dist
 from data import data_loader
 from data import utils as du
 from data import tokenizer
-from data import noiser
 from experiments import utils as eu
 from model import main_network
 
@@ -52,10 +51,8 @@ class Experiment:
         self._model_conf = conf.model
         self._data_conf = conf.data
         self._tok_conf = conf.tokenizer
-        self._noiser_conf = conf.noiser
 
         self.tokenizer = tokenizer.Tokenizer(self._tok_conf)
-        self.noiser = noiser.Noiser(self._noiser_conf)
 
         self._use_wandb = self._exp_conf.use_wandb
         self._use_ddp = self._exp_conf.use_ddp
@@ -278,10 +275,6 @@ class Experiment:
         for train_feats, sample_ids in train_loader:
 
             train_feats = {key: value.to(self.device) for key, value in train_feats.items()}
-
-            if self._noiser_conf.noise_frames:
-                with torch.no_grad():
-                    train_feats = self.noiser.noise_sample(train_feats)
             
             loss, aux_data = self.update_fn(train_feats)
             
