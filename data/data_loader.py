@@ -92,7 +92,6 @@ class Dataset(torch.utils.data.Dataset):
                     tidx_na = tidx_na[:self.max_len+4]
                     ttype_na = ttype_na[:self.max_len+4]
                     ttar_na = ttar_na[:self.max_len+2]
-                    ct_mask = ct_mask[:self.max_len+2]
 
                 elif cont_token+self.max_len//2+4 >= len(ttype_na)-1:
 
@@ -100,14 +99,12 @@ class Dataset(torch.utils.data.Dataset):
                     
                     tidx_na = tidx_na[-self.max_len-4:]
                     ttype_na = ttype_na[-self.max_len-4:]
-                    ct_mask = ct_mask[-self.max_len-2:]
                     ttar_na = ttar_na[-self.max_len-2:]
                     
                 else:
 
                     tidx_na = tidx_na[cont_token-self.max_len//2:cont_token+self.max_len//2+4]
                     ttype_na = ttype_na[cont_token-self.max_len//2:cont_token+self.max_len//2+4]
-                    ct_mask = ct_mask[cont_token-self.max_len//2:cont_token+self.max_len//2+2]
                     ttar_na = ttar_na[cont_token-self.max_len//2:cont_token+self.max_len//2+2]
 
                     cont_token = self.max_len//2
